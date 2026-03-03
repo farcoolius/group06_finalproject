@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deportation Timeline - Seattle Metro Analysis</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+    
+    <!-- Dark Mode CSS -->
+    <style>
+        :root {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #242424;
+            --bg-tertiary: #2d2d2d;
+            --text-primary: #e0e0e0;
+            --text-secondary: #a0a0a0;
+            --border-color: #404040;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        .navbar {
+            background-color: var(--bg-secondary) !important;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .navbar-brand {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .chart-wrapper {
+            height: calc(100vh - 150px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: stretch;
+            padding: 20px;
+        }
+
+        .chart-container {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chart-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+
+        .chart-description {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        #chart {
+            flex: 1;
+            position: relative;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn-dark {
+            background-color: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .btn-dark:hover {
+            background-color: #0066cc;
+            border-color: #0066cc;
+        }
+
+        .info-section {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .info-section h5 {
+            color: var(--text-primary);
+            margin-bottom: 10px;
+        }
+
+        .info-section p {
+            color: var(--text-secondary);
+            margin: 0;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .footer {
+            background-color: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 20px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-tertiary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-secondary);
+        }
+    </style>
+</head>
+<body class="dark-mode">
+    <!-- Navigation -->
+    <nav class="navbar navbar-dark sticky-top">
+        <div class="container-fluid px-3">
+            <a href="index.html" class="btn btn-sm btn-outline-light me-2">
+                <i class="fas fa-arrow-left"></i> Back to Dashboard
+            </a>
+            <span class="navbar-brand mb-0">
+                <i class="fas fa-chart-line"></i> Deportation Timeline Analysis
+            </span>
+            <div class="navbar-text text-secondary" style="margin-left: auto;">
+                <small>Seattle Metropolitan Area</small>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid">
+        <div class="chart-wrapper">
+            <div class="chart-container">
+                <h2 class="chart-title"><i class="fas fa-chart-line"></i> Monthly Deportation Trends</h2>
+                <p class="chart-description">
+                    This line chart displays the total number of deportations across the Seattle metropolitan area over a three-month period (January - March 2023). 
+                    The trend shows how enforcement patterns fluctuate month-to-month.
+                </p>
+                <div id="chart" style="position: relative; height: 100%; min-height: 300px;">
+                    <canvas id="timelineChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <div class="controls">
+                <button class="btn btn-sm btn-dark" onclick="downloadChart()">
+                    <i class="fas fa-download"></i> Download Chart
+                </button>
+                <button class="btn btn-sm btn-dark" onclick="printChart()">
+                    <i class="fas fa-print"></i> Print
+                </button>
+            </div>
+
+            <!-- Information Section -->
+            <div class="info-section">
+                <h5><i class="fas fa-info-circle"></i> Chart Details</h5>
+                <p>
+                    <strong>Chart Type:</strong> Line Chart<br>
+                    <strong>Data Attribute (X-axis):</strong> Month (2023)<br>
+                    <strong>Data Attribute (Y-axis):</strong> Total Deportations (Count)<br>
+                    <strong>Geographic Focus:</strong> Seattle Metropolitan Area (King, Pierce, Snohomish Counties)<br>
+                    <strong>Purpose:</strong> To visualize temporal trends in deportation enforcement across the Seattle metro region and identify seasonal patterns or anomalies.
+                </p>
+            </div>
+
+            <div class="info-section">
+                <h5><i class="fas fa-database"></i> Data Summary</h5>
+                <p>
+                    <strong>Total Period:</strong> January 2023 - March 2023<br>
+                    <strong>Total Deportations:</strong> <span id="totalCount">0</span><br>
+                    <strong>Average Monthly:</strong> <span id="avgMonthly">0</span><br>
+                    <strong>Highest Month:</strong> <span id="maxMonth">0</span><br>
+                    <strong>Regions Covered:</strong> Seattle, Tacoma, Bellevue, Everett
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>Data Source: Deportation Data Project | Seattle Area Analysis | Built with Chart.js</p>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Data
+        const sampleData = {
+            deportations: [
+                { date: '2023-01', area: 'Seattle', count: 45 },
+                { date: '2023-01', area: 'Tacoma', count: 28 },
+                { date: '2023-01', area: 'Bellevue', count: 22 },
+                { date: '2023-01', area: 'Everett', count: 18 },
+                { date: '2023-02', area: 'Seattle', count: 52 },
+                { date: '2023-02', area: 'Tacoma', count: 32 },
+                { date: '2023-02', area: 'Bellevue', count: 26 },
+                { date: '2023-02', area: 'Everett', count: 21 },
+                { date: '2023-03', area: 'Seattle', count: 58 },
+                { date: '2023-03', area: 'Tacoma', count: 35 },
+                { date: '2023-03', area: 'Bellevue', count: 29 },
+                { date: '2023-03', area: 'Everett', count: 24 },
+            ]
+        };
+
+        // Chart colors
+        const chartColors = {
+            text: '#e0e0e0',
+            border: '#404040',
+            bg: '#242424',
+            primary: '#0066cc',
+        };
+
+        // Initialize chart
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeChart();
+            updateDataSummary();
+        });
+
+        function initializeChart() {
+            const data = sampleData.deportations;
+            const timelineData = {};
+
+            data.forEach(record => {
+                const date = record.date;
+                timelineData[date] = (timelineData[date] || 0) + record.count;
+            });
+
+            const ctx = document.getElementById('timelineChart').getContext('2d');
+            
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: Object.keys(timelineData).sort(),
+                    datasets: [{
+                        label: 'Total Deportations',
+                        data: Object.keys(timelineData).sort().map(k => timelineData[k]),
+                        borderColor: chartColors.primary,
+                        backgroundColor: 'rgba(0, 102, 204, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 6,
+                        pointBackgroundColor: chartColors.primary,
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointHoverRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            labels: {
+                                color: chartColors.text,
+                                font: { size: 12, weight: 'bold' }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                color: chartColors.text,
+                                font: { size: 11 }
+                            },
+                            grid: {
+                                color: chartColors.border
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                color: chartColors.text,
+                                font: { size: 11 }
+                            },
+                            grid: {
+                                color: chartColors.border
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateDataSummary() {
+            const data = sampleData.deportations;
+            const timelineData = {};
+
+            data.forEach(record => {
+                const date = record.date;
+                timelineData[date] = (timelineData[date] || 0) + record.count;
+            });
+
+            const total = Object.values(timelineData).reduce((a, b) => a + b, 0);
+            const avg = (total / Object.keys(timelineData).length).toFixed(0);
+            const max = Math.max(...Object.values(timelineData));
+            const maxMonth = Object.keys(timelineData).find(k => timelineData[k] === max);
+
+            document.getElementById('totalCount').textContent = total;
+            document.getElementById('avgMonthly').textContent = avg;
+            document.getElementById('maxMonth').textContent = `${maxMonth} (${max} deportations)`;
+        }
+
+        function downloadChart() {
+            const canvas = document.getElementById('timelineChart');
+            const link = document.createElement('a');
+            link.href = canvas.toDataURL('image/png');
+            link.download = 'deportation-timeline.png';
+            link.click();
+        }
+
+        function printChart() {
+            window.print();
+        }
+    </script>
+</body>
+</html>

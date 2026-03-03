@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Area Distribution - Seattle Metro Analysis</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+    
+    <!-- Dark Mode CSS -->
+    <style>
+        :root {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #242424;
+            --bg-tertiary: #2d2d2d;
+            --text-primary: #e0e0e0;
+            --text-secondary: #a0a0a0;
+            --border-color: #404040;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        .navbar {
+            background-color: var(--bg-secondary) !important;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .navbar-brand {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .chart-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            padding: 20px;
+            min-height: calc(100vh - 100px);
+            align-items: start;
+        }
+
+        .chart-container {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .chart-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+
+        .chart-description {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        #chart {
+            position: relative;
+            height: 350px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn-dark {
+            background-color: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+
+        .btn-dark:hover {
+            background-color: #0066cc;
+            border-color: #0066cc;
+        }
+
+        .info-section {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .info-section h5 {
+            color: var(--text-primary);
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .info-section p {
+            color: var(--text-secondary);
+            margin: 0;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .stat-box {
+            background-color: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+
+        .stat-value {
+            color: #0066cc;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .footer {
+            background-color: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 20px;
+        }
+
+        @media (max-width: 992px) {
+            .chart-wrapper {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-tertiary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-secondary);
+        }
+    </style>
+</head>
+<body class="dark-mode">
+    <!-- Navigation -->
+    <nav class="navbar navbar-dark sticky-top">
+        <div class="container-fluid px-3">
+            <a href="index.html" class="btn btn-sm btn-outline-light me-2">
+                <i class="fas fa-arrow-left"></i> Back to Dashboard
+            </a>
+            <span class="navbar-brand mb-0">
+                <i class="fas fa-chart-pie"></i> Area Distribution Analysis
+            </span>
+            <div class="navbar-text text-secondary" style="margin-left: auto;">
+                <small>Seattle Metropolitan Area</small>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid">
+        <div class="chart-wrapper">
+            <!-- Left: Pie Chart -->
+            <div class="chart-container">
+                <h2 class="chart-title"><i class="fas fa-chart-pie"></i> Distribution by Area</h2>
+                <p class="chart-description">
+                    This doughnut chart shows the proportional breakdown of deportations across different areas in the Seattle metropolitan region.
+                </p>
+                <div id="chart" style="position: relative;">
+                    <canvas id="distributionChart"></canvas>
+                </div>
+                <div class="controls">
+                    <button class="btn btn-sm btn-dark" onclick="downloadChart()">
+                        <i class="fas fa-download"></i> Download
+                    </button>
+                    <button class="btn btn-sm btn-dark" onclick="printChart()">
+                        <i class="fas fa-print"></i> Print
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right: Information -->
+            <div>
+                <!-- Chart Details -->
+                <div class="info-section">
+                    <h5><i class="fas fa-info-circle"></i> Chart Details</h5>
+                    <p>
+                        <strong>Chart Type:</strong> Doughnut Chart<br>
+                        <strong>Data Attribute (Segments):</strong> Geographic Areas<br>
+                        <strong>Data Attribute (Size):</strong> Total Deportations per Area<br>
+                        <strong>Geographic Focus:</strong> Seattle Metropolitan Area<br>
+                        <strong>Purpose:</strong> To visualize the relative proportion of deportations across different areas and identify regional hotspots.
+                    </p>
+                </div>
+
+                <!-- Statistics -->
+                <div class="info-section">
+                    <h5><i class="fas fa-database"></i> Statistics by Area</h5>
+                    <div class="stats-grid" id="statsGrid">
+                        <!-- Generated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Analysis -->
+                <div class="info-section">
+                    <h5><i class="fas fa-lightbulb"></i> Key Insights</h5>
+                    <p>
+                        • Seattle dominates with the highest share of deportations across the three-month period<br>
+                        • Tacoma shows significant activity as the second-largest contributor<br>
+                        • Bellevue and Everett represent smaller but notable portions of total enforcement<br>
+                        • Regional concentration suggests targeted enforcement patterns in major urban centers
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>Data Source: Deportation Data Project | Seattle Area Analysis | Built with Chart.js</p>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Data
+        const sampleData = {
+            deportations: [
+                { date: '2023-01', area: 'Seattle', county: 'King', count: 45 },
+                { date: '2023-01', area: 'Tacoma', county: 'Pierce', count: 28 },
+                { date: '2023-01', area: 'Bellevue', county: 'King', count: 22 },
+                { date: '2023-01', area: 'Everett', county: 'Snohomish', count: 18 },
+                { date: '2023-02', area: 'Seattle', county: 'King', count: 52 },
+                { date: '2023-02', area: 'Tacoma', county: 'Pierce', count: 32 },
+                { date: '2023-02', area: 'Bellevue', county: 'King', count: 26 },
+                { date: '2023-02', area: 'Everett', county: 'Snohomish', count: 21 },
+                { date: '2023-03', area: 'Seattle', county: 'King', count: 58 },
+                { date: '2023-03', area: 'Tacoma', county: 'Pierce', count: 35 },
+                { date: '2023-03', area: 'Bellevue', county: 'King', count: 29 },
+                { date: '2023-03', area: 'Everett', county: 'Snohomish', count: 24 },
+            ]
+        };
+
+        // Chart colors
+        const chartColors = {
+            text: '#e0e0e0',
+            border: '#404040',
+            bg: '#242424',
+            palette: ['#0066cc', '#ff6b6b', '#51cf66', '#ffd43b']
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeChart();
+            displayStatistics();
+        });
+
+        function initializeChart() {
+            const data = sampleData.deportations;
+            const areaData = {};
+
+            data.forEach(record => {
+                areaData[record.area] = (areaData[record.area] || 0) + record.count;
+            });
+
+            const ctx = document.getElementById('distributionChart').getContext('2d');
+            
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(areaData),
+                    datasets: [{
+                        data: Object.values(areaData),
+                        backgroundColor: chartColors.palette,
+                        borderColor: chartColors.bg,
+                        borderWidth: 2,
+                        hoverBorderWidth: 3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: chartColors.text,
+                                font: { size: 11 },
+                                padding: 15
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function displayStatistics() {
+            const data = sampleData.deportations;
+            const areaData = {};
+            const areaCounties = {};
+
+            data.forEach(record => {
+                areaData[record.area] = (areaData[record.area] || 0) + record.count;
+                areaCounties[record.area] = record.county;
+            });
+
+            const total = Object.values(areaData).reduce((a, b) => a + b, 0);
+            const statsGrid = document.getElementById('statsGrid');
+            statsGrid.innerHTML = '';
+
+            Object.entries(areaData).sort((a, b) => b[1] - a[1]).forEach(([area, count]) => {
+                const percentage = ((count / total) * 100).toFixed(1);
+                const box = document.createElement('div');
+                box.className = 'stat-box';
+                box.innerHTML = `
+                    <div class="stat-label">${area} (${areaCounties[area]})</div>
+                    <div class="stat-value">${count}</div>
+                    <small style="color: #a0a0a0;">${percentage}% of total</small>
+                `;
+                statsGrid.appendChild(box);
+            });
+        }
+
+        function downloadChart() {
+            const canvas = document.getElementById('distributionChart');
+            const link = document.createElement('a');
+            link.href = canvas.toDataURL('image/png');
+            link.download = 'area-distribution.png';
+            link.click();
+        }
+
+        function printChart() {
+            window.print();
+        }
+    </script>
+</body>
+</html>
