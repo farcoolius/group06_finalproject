@@ -13,37 +13,36 @@ map.on('load', function () {
 
     map.addSource('arrests', {
         type: 'geojson',
-        data: 'data/arrests-washington-only.geojson'
+        data: 'assets/arrests-washington-only.geojson'
     });
 
     map.addLayer({
         id: 'arrests-layer',
         type: 'circle',
-        source: 'arrests',
+        source: 'washington-arrests',
         paint: {
             'circle-radius': 6,
-            'circle-color': '#ff4d4d',
-            'circle-opacity': 0.8,
-            'circle-stroke-width': 1,
-            'circle-stroke-color': '#ffffff'
+            'circle-color': '#ff4d4d'
         }
     });
 
+
     map.on('click', 'arrests-layer', function (e) {
 
-        const coordinates = e.features[0].geometry.coordinates.slice();
-        const properties = e.features[0].properties;
-
-        const popupContent = `
-            <strong>Location:</strong> ${properties.city || "Unknown"}<br>
-            <strong>Arrests:</strong> ${properties.arrests || "N/A"}
-        `;
+        const props = e.features[0].properties;
 
         new mapboxgl.Popup()
-            .setLngLat(coordinates)
-            .setHTML(popupContent)
+            .setLngLat(e.lngLat)
+            .setHTML(`
+                <strong>Date:</strong> ${props.apprehension_date}<br>
+                <strong>Location:</strong> ${props.apprehension_site_landmark}<br>
+                <strong>Country:</strong> ${props.citizenship_country}<br>
+                <strong>Gender:</strong> ${props.gender}<br>
+                <strong>Status:</strong> ${props.case_status}
+            `)
             .addTo(map);
-    });
+
+        });
 
     map.on('mouseenter', 'arrests-layer', () => {
         map.getCanvas().style.cursor = 'pointer';
