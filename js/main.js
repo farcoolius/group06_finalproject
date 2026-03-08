@@ -16,7 +16,7 @@ map.on("load", () => {
   });
 
   map.addLayer({
-    id: "points",
+    id: "Point",
     type: "circle",
     source: "arrests",
     paint: {
