@@ -31,6 +31,26 @@ map.on("load", () => {
     }
   });
 
+  // Click point so that it shows the landmark
+  map.on("click", "Point", (e) => {
+    const coordinates = e.features[0].geometry.coordinates.slice();
+    const landmark = e.features[0].properties.apprehension_site_landmark || "Unknown location";
+
+    new mapboxgl.Popup()
+      .setLngLat(coordinates)
+      .setHTML(`<strong>${landmark}</strong>`)
+      .addTo(map);
+  });
+
+  // hover
+  map.on("mouseenter", "Point", () => {
+    map.getCanvas().style.cursor = "pointer";
+  });
+
+  map.on("mouseleave", "Point", () => {
+    map.getCanvas().style.cursor = "";
+  });
+
   map.addLayer({
     id: "cluster-count",
     type: "symbol",
