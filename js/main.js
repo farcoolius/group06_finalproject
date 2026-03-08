@@ -1,4 +1,4 @@
-mapboxgl.accessToken = "pk.eyJ1IjoiZmFyaGFzcyIsImEiOiJjbW0xOWt1b2MwN2s0MnNvYzFhNW5tZXRjIn0.woofAfgLav-FoAG30Mo0pg";
+mapboxgl.accessToken = "pk.eyJ1IjoiZmFyaGFzcyIsImEiOiJjbW1mbmRyZHgwMmJhMnNwdjUya2c2ZXAxIn0.GO0A1AFmOi_eEVjPwd6Adg";
 
 const map = new mapboxgl.Map({
     container: 'map',
@@ -9,47 +9,122 @@ const map = new mapboxgl.Map({
 
 map.addControl(new mapboxgl.NavigationControl());
 
-map.on('load', function () {
-
+map.on('load', () => {
     map.addSource('arrests', {
         type: 'geojson',
-        data: 'assets/arrests-washington-only.geojson'
+        data: 'assets/arrests-data.geojson',
+        cluster: true,
+        clusterMaxZoom: 10,
+        clusterRadius: 40
     });
 
+    // Cluster circles
     map.addLayer({
-        id: 'arrests-layer',
+        id: 'clusters',
         type: 'circle',
-        source: 'washington-arrests',
+        source: 'arrests',
+        filter: ['has', 'point_count'],
         paint: {
-            'circle-radius': 6,
-            'circle-color': '#ff4d4d'
+            'circle-color': [
+                'step',
+                ['get', 'point_count'],
+                '#2DC4B2', 10,
+                '#3BB3C3', 25,
+                '#669EC4', 50,
+                '#8B88B6'
+            ],
+            'circle-radius': [
+                'step',
+                ['get', 'point_count'],
+                18, 10,
+                24, 25,
+                30, 50,
+                36
+            ],
+            'circle-stroke-width': 2,
+            'circle-stroke-color': '#ffffff'
         }
     });
 
+    // Cluster numbers
+    map.addLayer({
+        id: 'cluster-count',
+        type: 'symbol',
+        source: 'arrests',
+        filter: ['has', 'point_count'],
+        layout: {
+            'text-field': '{point_count_abbreviated}',
+            'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
+            'text-size': 14
+        },
+        paint: {
+            'text-color': '#ffffff'
+        }
+    });
 
-    map.on('click', 'arrests-layer', function (e) {
+    // Unclustered points
+    map.addLayer({
+        id: 'unclustered-point',
+        type: 'circle',
+        source: 'arrests',
+        filter: ['!', ['has', 'point_count']],
+        paint: {
+            'circle-color': '#ff4d4d',
+            'circle-radius': 7,
+            'circle-stroke-width': 1.5,
+            'circle-stroke-color': '#ffffff'
+        }
+    });
 
+    // Click cluster to zoom in
+    map.on('click', 'clusters', (e) => {
+        const features = map.queryRenderedFeatures(e.point, { layers: ['clusters'] });
+        const clusterId = features[0].properties.cluster_id;
+
+        map.getSource('arrests').getClusterExpansionZoom(clusterId, (err, zoom) => {
+            if (err) return;
+            map.easeTo({
+                center: features[0].geometry.coordinates,
+                zoom: zoom
+            });
+        });
+    });
+
+    // Popup for individual points
+    map.on('click', 'unclustered-point', (e) => {
         const props = e.features[0].properties;
+        const coordinates = e.features[0].geometry.coordinates.slice();
 
         new mapboxgl.Popup()
-            .setLngLat(e.lngLat)
+            .setLngLat(coordinates)
             .setHTML(`
-                <strong>Date:</strong> ${props.apprehension_date}<br>
-                <strong>Location:</strong> ${props.apprehension_site_landmark}<br>
-                <strong>Country:</strong> ${props.citizenship_country}<br>
-                <strong>Gender:</strong> ${props.gender}<br>
-                <strong>Status:</strong> ${props.case_status}
+                <strong>Date:</strong> ${props.apprehension_date || 'N/A'}<br>
+                <strong>State:</strong> ${props.apprehension_state || 'N/A'}<br>
+                <strong>Location:</strong> ${props.apprehension_site_landmark || 'N/A'}<br>
+                <strong>Country:</strong> ${props.citizenship_country || 'N/A'}<br>
+                <strong>Gender:</strong> ${props.gender || 'N/A'}<br>
+                <strong>Status:</strong> ${props.case_status || 'N/A'}
             `)
             .addTo(map);
-
-        });
-
-    map.on('mouseenter', 'arrests-layer', () => {
-        map.getCanvas().style.cursor = 'pointer';
     });
 
-    map.on('mouseleave', 'arrests-layer', () => {
-        map.getCanvas().style.cursor = '';
-    });
+    map.on('mouseenter', 'clusters', () => { map.getCanvas().style.cursor = 'pointer'; });
+    map.on('mouseleave', 'clusters', () => { map.getCanvas().style.cursor = ''; });
+    map.on('mouseenter', 'unclustered-point', () => { map.getCanvas().style.cursor = 'pointer'; });
+    map.on('mouseleave', 'unclustered-point', () => { map.getCanvas().style.cursor = ''; });
 
+    // Fit map + update counters using fetched data
+    fetch('arrests/arrests-washington-only.geojson')
+        .then(r => r.json())
+        .then(data => {
+            const bounds = new mapboxgl.LngLatBounds();
+            data.features.forEach(f => {
+                if (f.geometry?.coordinates) bounds.extend(f.geometry.coordinates);
+            });
+            if (!bounds.isEmpty()) map.fitBounds(bounds, { padding: 50 });
+
+            document.getElementById('locationCount').textContent = data.features.length;
+            document.getElementById('totalDeportations').textContent = data.features.length;
+        })
+        .catch(err => console.error('GeoJSON load error:', err));
 });
