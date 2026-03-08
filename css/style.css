@@ -145,8 +145,14 @@ body {
 }
 
 .mapboxgl-popup-content {
-    color: black;
-    background: white;
-    border-radius: 6px;
-    padding: 10px;
+    background: white !important;
+    color: black !important;
+}
+
+.mapboxgl-popup-content strong {
+    color: black !important;
+}
+
+.mapboxgl-popup-close-button {
+    color: black !important;
 }
