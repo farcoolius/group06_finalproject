@@ -51,9 +51,23 @@ map.on("load", () => {
     source: "arrests",
     filter: ["!", ["has", "point_count"]],
     paint: {
-      "circle-radius": 5,
-      "circle-color": "#ff4d4d",
-      "circle-stroke-width": 1,
+      "circle-color": [
+        "step",
+        ["get", "point_count"],
+        "#ffffcc",   // Low
+        10, "#c7e9b4",  // Moderate
+        50, "#7fcdbb",  // High
+        200, "#2c7fb8"  // Very High
+      ],
+      "circle-radius": [
+        "step",
+        ["get", "point_count"],
+        15,
+        10, 20,
+        50, 25,
+        200, 30
+      ],
+      "circle-stroke-width": 2,
       "circle-stroke-color": "#ffffff"
     }
   });
