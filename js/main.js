@@ -43,13 +43,6 @@ map.on("load", () => {
   });
 
   // hover
-  map.on("mouseenter", "Point", () => {
-    map.getCanvas().style.cursor = "pointer";
-  });
-
-  map.on("mouseleave", "Point", () => {
-    map.getCanvas().style.cursor = "";
-  });
 
   map.addLayer({
     id: "cluster-count",
