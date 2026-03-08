@@ -114,7 +114,7 @@ map.on('load', () => {
     map.on('mouseleave', 'unclustered-point', () => { map.getCanvas().style.cursor = ''; });
 
     // Fit map + update counters using fetched data
-    fetch('arrests/arrests-washington-only.geojson')
+    fetch('assets/arrests-data.geojson')
         .then(r => r.json())
         .then(data => {
             const bounds = new mapboxgl.LngLatBounds();
