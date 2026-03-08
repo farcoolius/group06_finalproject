@@ -12,11 +12,11 @@ map.addControl(new mapboxgl.NavigationControl(), "top-right");
 map.on("load", () => {
   map.addSource("arrests", {
     type: "geojson",
-    data: "./assets/arrests-data.geojson"
+    data: "assets/arrests-data.geojson"
   });
 
   map.addLayer({
-    id: "arrests-points",
+    id: "points",
     type: "circle",
     source: "arrests",
     paint: {
