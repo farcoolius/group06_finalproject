@@ -7,6 +7,11 @@ const map = new mapboxgl.Map({
     zoom: 6
 });
 
-map.on("load", () => {
-    console.log("Map loaded");
-});
+map.on('load', () => {
+    map.addSource('arrests', {
+        type: 'geojson',
+        data: 'assets/arrests-data.geojson',
+        cluster: true,
+        clusterMaxZoom: 10,
+        clusterRadius: 40
+    });
