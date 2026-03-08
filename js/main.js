@@ -18,7 +18,6 @@ map.on('load', () => {
         clusterRadius: 40
     });
 
-    // Cluster circles
     map.addLayer({
         id: 'clusters',
         type: 'circle',
@@ -46,7 +45,6 @@ map.on('load', () => {
         }
     });
 
-    // Cluster numbers
     map.addLayer({
         id: 'cluster-count',
         type: 'symbol',
@@ -62,7 +60,6 @@ map.on('load', () => {
         }
     });
 
-    // Unclustered points
     map.addLayer({
         id: 'unclustered-point',
         type: 'circle',
@@ -76,13 +73,13 @@ map.on('load', () => {
         }
     });
 
-    // Click cluster to zoom in
     map.on('click', 'clusters', (e) => {
         const features = map.queryRenderedFeatures(e.point, { layers: ['clusters'] });
         const clusterId = features[0].properties.cluster_id;
 
         map.getSource('arrests').getClusterExpansionZoom(clusterId, (err, zoom) => {
             if (err) return;
+
             map.easeTo({
                 center: features[0].geometry.coordinates,
                 zoom: zoom
@@ -90,7 +87,6 @@ map.on('load', () => {
         });
     });
 
-    // Popup for individual points
     map.on('click', 'unclustered-point', (e) => {
         const props = e.features[0].properties;
         const coordinates = e.features[0].geometry.coordinates.slice();
@@ -108,20 +104,36 @@ map.on('load', () => {
             .addTo(map);
     });
 
-    map.on('mouseenter', 'clusters', () => { map.getCanvas().style.cursor = 'pointer'; });
-    map.on('mouseleave', 'clusters', () => { map.getCanvas().style.cursor = ''; });
-    map.on('mouseenter', 'unclustered-point', () => { map.getCanvas().style.cursor = 'pointer'; });
-    map.on('mouseleave', 'unclustered-point', () => { map.getCanvas().style.cursor = ''; });
+    map.on('mouseenter', 'clusters', () => {
+        map.getCanvas().style.cursor = 'pointer';
+    });
 
-    // Fit map + update counters using fetched data
+    map.on('mouseleave', 'clusters', () => {
+        map.getCanvas().style.cursor = '';
+    });
+
+    map.on('mouseenter', 'unclustered-point', () => {
+        map.getCanvas().style.cursor = 'pointer';
+    });
+
+    map.on('mouseleave', 'unclustered-point', () => {
+        map.getCanvas().style.cursor = '';
+    });
+
     fetch('assets/arrests-data.geojson')
         .then(r => r.json())
         .then(data => {
             const bounds = new mapboxgl.LngLatBounds();
+
             data.features.forEach(f => {
-                if (f.geometry?.coordinates) bounds.extend(f.geometry.coordinates);
+                if (f.geometry && f.geometry.coordinates) {
+                    bounds.extend(f.geometry.coordinates);
+                }
             });
-            if (!bounds.isEmpty()) map.fitBounds(bounds, { padding: 50 });
+
+            if (!bounds.isEmpty()) {
+                map.fitBounds(bounds, { padding: 50 });
+            }
 
             document.getElementById('locationCount').textContent = data.features.length;
             document.getElementById('totalDeportations').textContent = data.features.length;
