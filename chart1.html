@@ -170,8 +170,8 @@
             <div class="chart-container">
                 <h2 class="chart-title"><i class="fas fa-chart-line"></i> Monthly Deportation Trends</h2>
                 <p class="chart-description">
-                    This line chart displays the total number of deportations across the Seattle metropolitan area over a three-month period (January - March 2023). 
-                    The trend shows how enforcement patterns fluctuate month-to-month.
+                    This line chart displays monthly apprehension trends across Washington State from 2023-2025. 
+                    The chart shows how ICE enforcement patterns have evolved over the three-year period.
                 </p>
                 <div id="chart" style="position: relative; height: 100%; min-height: 300px;">
                     <canvas id="timelineChart"></canvas>
@@ -193,21 +193,21 @@
                 <h5><i class="fas fa-info-circle"></i> Chart Details</h5>
                 <p>
                     <strong>Chart Type:</strong> Line Chart<br>
-                    <strong>Data Attribute (X-axis):</strong> Month (2023)<br>
-                    <strong>Data Attribute (Y-axis):</strong> Total Deportations (Count)<br>
-                    <strong>Geographic Focus:</strong> Seattle Metropolitan Area (King, Pierce, Snohomish Counties)<br>
-                    <strong>Purpose:</strong> To visualize temporal trends in deportation enforcement across the Seattle metro region and identify seasonal patterns or anomalies.
+                    <strong>Data Attribute (X-axis):</strong> Month (2023-2025)<br>
+                    <strong>Data Attribute (Y-axis):</strong> Total Apprehensions (Count)<br>
+                    <strong>Geographic Focus:</strong> Washington State<br>
+                    <strong>Purpose:</strong> To visualize temporal trends in ICE apprehensions and identify seasonal patterns or changes in enforcement activity over time.
                 </p>
             </div>
 
             <div class="info-section">
                 <h5><i class="fas fa-database"></i> Data Summary</h5>
                 <p>
-                    <strong>Total Period:</strong> January 2023 - March 2023<br>
-                    <strong>Total Deportations:</strong> <span id="totalCount">0</span><br>
+                    <strong>Total Period:</strong> January 2023 - December 2025<br>
+                    <strong>Total Apprehensions:</strong> <span id="totalCount">0</span><br>
                     <strong>Average Monthly:</strong> <span id="avgMonthly">0</span><br>
                     <strong>Highest Month:</strong> <span id="maxMonth">0</span><br>
-                    <strong>Regions Covered:</strong> Seattle, Tacoma, Bellevue, Everett
+                    <strong>Data Source:</strong> arrests-data.geojson
                 </p>
             </div>
         </div>
@@ -222,24 +222,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        // Data
-        const sampleData = {
-            deportations: [
-                { date: '2023-01', area: 'Seattle', count: 45 },
-                { date: '2023-01', area: 'Tacoma', count: 28 },
-                { date: '2023-01', area: 'Bellevue', count: 22 },
-                { date: '2023-01', area: 'Everett', count: 18 },
-                { date: '2023-02', area: 'Seattle', count: 52 },
-                { date: '2023-02', area: 'Tacoma', count: 32 },
-                { date: '2023-02', area: 'Bellevue', count: 26 },
-                { date: '2023-02', area: 'Everett', count: 21 },
-                { date: '2023-03', area: 'Seattle', count: 58 },
-                { date: '2023-03', area: 'Tacoma', count: 35 },
-                { date: '2023-03', area: 'Bellevue', count: 29 },
-                { date: '2023-03', area: 'Everett', count: 24 },
-            ]
-        };
-
         // Chart colors
         const chartColors = {
             text: '#e0e0e0',
@@ -248,30 +230,52 @@
             primary: '#0066cc',
         };
 
+        // Function to extract month from date string (YYYY-MM-DD)
+        function extractMonth(dateString) {
+            return dateString.substring(0, 7); // Returns YYYY-MM
+        }
+
+        // Load and process GeoJSON data
+        async function loadArrestsData() {
+            try {
+                const response = await fetch('assets/arrests-data.geojson');
+                const geojsonData = await response.json();
+                
+                // Extract monthly counts from features
+                const monthlyData = {};
+                geojsonData.features.forEach(feature => {
+                    if (feature.properties && feature.properties.apprehension_date) {
+                        const date = feature.properties.apprehension_date;
+                        const month = extractMonth(date);
+                        monthlyData[month] = (monthlyData[month] || 0) + 1;
+                    }
+                });
+                
+                return monthlyData;
+            } catch (error) {
+                console.error('Error loading arrests data:', error);
+                return {};
+            }
+        }
+
         // Initialize chart
-        document.addEventListener('DOMContentLoaded', function() {
-            initializeChart();
-            updateDataSummary();
+        document.addEventListener('DOMContentLoaded', async function() {
+            const monthlyData = await loadArrestsData();
+            initializeChart(monthlyData);
+            updateDataSummary(monthlyData);
         });
 
-        function initializeChart() {
-            const data = sampleData.deportations;
-            const timelineData = {};
-
-            data.forEach(record => {
-                const date = record.date;
-                timelineData[date] = (timelineData[date] || 0) + record.count;
-            });
-
+        function initializeChart(monthlyData) {
+            const sortedMonths = Object.keys(monthlyData).sort();
             const ctx = document.getElementById('timelineChart').getContext('2d');
             
             new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: Object.keys(timelineData).sort(),
+                    labels: sortedMonths,
                     datasets: [{
-                        label: 'Total Deportations',
-                        data: Object.keys(timelineData).sort().map(k => timelineData[k]),
+                        label: 'Monthly Apprehensions',
+                        data: sortedMonths.map(month => monthlyData[month]),
                         borderColor: chartColors.primary,
                         backgroundColor: 'rgba(0, 102, 204, 0.1)',
                         borderWidth: 3,
@@ -321,23 +325,17 @@
             });
         }
 
-        function updateDataSummary() {
-            const data = sampleData.deportations;
-            const timelineData = {};
-
-            data.forEach(record => {
-                const date = record.date;
-                timelineData[date] = (timelineData[date] || 0) + record.count;
-            });
-
-            const total = Object.values(timelineData).reduce((a, b) => a + b, 0);
-            const avg = (total / Object.keys(timelineData).length).toFixed(0);
-            const max = Math.max(...Object.values(timelineData));
-            const maxMonth = Object.keys(timelineData).find(k => timelineData[k] === max);
+        function updateDataSummary(monthlyData) {
+            const months = Object.keys(monthlyData);
+            const counts = Object.values(monthlyData);
+            const total = counts.reduce((a, b) => a + b, 0);
+            const avg = months.length > 0 ? (total / months.length).toFixed(0) : 0;
+            const max = months.length > 0 ? Math.max(...counts) : 0;
+            const maxMonth = months.find(m => monthlyData[m] === max) || 'N/A';
 
             document.getElementById('totalCount').textContent = total;
             document.getElementById('avgMonthly').textContent = avg;
-            document.getElementById('maxMonth').textContent = `${maxMonth} (${max} deportations)`;
+            document.getElementById('maxMonth').textContent = months.length > 0 ? `${maxMonth} (${max} apprehensions)` : 'No data';
         }
 
         function downloadChart() {
