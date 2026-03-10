@@ -67,6 +67,25 @@ body {
     border-bottom: 2px solid #cfc7df;
     margin-bottom: 20px;
     padding-bottom: 12px;
+    color: #ffffff;
+}
+
+.chart-panel {
+    color: #ffffff;
+}
+
+.chart-panel canvas {
+    filter: brightness(1.1);
+}
+
+#detailsList {
+    color: #ffffff;
+}
+
+#detailsList p {
+    color: #ffffff !important;
+    margin: 0;
+    padding: 4px 0;
 }
 
 .panel-title {
