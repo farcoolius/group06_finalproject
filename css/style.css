@@ -143,30 +143,37 @@ body {
     bottom: 20px;
     left: 20px;
     z-index: 100;
-    background: rgba(35, 44, 59, 0.95);
+    background: rgba(26, 35, 50, 0.92);
     color: white;
-    padding: 12px;
-    border-radius: 8px;
-    min-width: 160px;
+    padding: 16px;
+    border-radius: 10px;
+    min-width: 180px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
 .legend-title {
-    font-weight: bold;
-    margin-bottom: 8px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
 }
 
 .legend-item {
     display: flex;
     align-items: center;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
 }
 
 .legend-color {
-    width: 16px;
-    height: 16px;
-    margin-right: 8px;
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
     display: inline-block;
     border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
 }
 
 .footer {

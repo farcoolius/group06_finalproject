@@ -27,21 +27,23 @@ map.on("load", () => {
       "circle-color": [
         "step",
         ["get", "point_count"],
-        "#ffffcc",   // 0-9
-        10, "#c7e9b4",   // 10-49
-        50, "#7fcdbb",   // 50-199
-        200, "#2c7fb8"   // 200+
+        "#ffd700",   // 0-9: Gold
+        10, "#87ceeb",   // 10-49: Sky Blue
+        50, "#00bfff",   // 50-199: Deep Sky Blue
+        200, "#0066ff"   // 200+: Bright Blue
       ],
       "circle-radius": [
         "step",
         ["get", "point_count"],
-        16,
-        10, 20,
-        50, 24,
-        200, 30
+        18,
+        10, 24,
+        50, 32,
+        200, 40
       ],
-      "circle-stroke-width": 2,
-      "circle-stroke-color": "#ffffff"
+      "circle-stroke-width": 3,
+      "circle-stroke-color": "#ffffff",
+      "circle-opacity": 0.85,
+      "circle-stroke-opacity": 1
     }
   });
 
@@ -65,10 +67,15 @@ map.on("load", () => {
     filter: ["has", "point_count"],
     layout: {
       "text-field": "{point_count_abbreviated}",
-      "text-size": 12
+      "text-size": 14,
+      "text-font": ["Open Sans Bold", "Arial Unicode MS Bold"],
+      "text-offset": [0, 0]
     },
     paint: {
-      "text-color": "#ffffff"
+      "text-color": "#ffffff",
+      "text-halo-color": "#000000",
+      "text-halo-width": 1.5,
+      "text-opacity": 1
     }
   });
 
@@ -78,24 +85,11 @@ map.on("load", () => {
     source: "arrests",
     filter: ["!", ["has", "point_count"]],
     paint: {
-      "circle-color": [
-        "step",
-        ["get", "point_count"],
-        "#ffffcc",   // Low
-        10, "#c7e9b4",  // Moderate
-        50, "#7fcdbb",  // High
-        200, "#2c7fb8"  // Very High
-      ],
-      "circle-radius": [
-        "step",
-        ["get", "point_count"],
-        15,
-        10, 20,
-        50, 25,
-        200, 30
-      ],
+      "circle-color": "#87ceeb",
+      "circle-radius": 6,
       "circle-stroke-width": 2,
-      "circle-stroke-color": "#ffffff"
+      "circle-stroke-color": "#ffffff",
+      "circle-opacity": 0.9
     }
   });
 
