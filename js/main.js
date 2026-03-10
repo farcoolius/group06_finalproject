@@ -177,15 +177,16 @@ async function loadCharts() {
     });
 
     // Pie Chart
-    const topAreas = Object.entries(areaData).sort((a, b) => b[1] - a[1]).slice(0, 4);
+    const allAreas = Object.entries(areaData).sort((a, b) => b[1] - a[1]);
+    const palette = ['#0066cc', '#ff6b6b', '#51cf66', '#ffd43b', '#845ef7', '#e599f7', '#748ffc', '#82c91e', '#fd7e14', '#1098ad'];
     const c2 = document.getElementById('pieChart').getContext('2d');
     new Chart(c2, {
       type: 'doughnut',
       data: {
-        labels: topAreas.map(a => a[0].substring(0, 20)),
+        labels: allAreas.map(a => a[0].substring(0, 25)),
         datasets: [{
-          data: topAreas.map(a => a[1]),
-          backgroundColor: ['#0066cc', '#ff6b6b', '#51cf66', '#ffd43b'],
+          data: allAreas.map(a => a[1]),
+          backgroundColor: allAreas.map((_, i) => palette[i % palette.length]),
           borderColor: '#242424',
           borderWidth: 2
         }]
@@ -193,7 +194,7 @@ async function loadCharts() {
       options: {
         responsive: true,
         maintainAspectRatio: true,
-        plugins: { legend: { position: 'bottom', labels: { font: { size: 10 } } } }
+        plugins: { legend: { position: 'bottom', labels: { font: { size: 9 } } } }
       }
     });
   } catch (e) {

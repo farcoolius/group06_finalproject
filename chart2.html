@@ -129,51 +129,44 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        const sampleData = { deportations: [
-            { date: '2023-01', area: 'Seattle', county: 'King', count: 45 },
-            { date: '2023-01', area: 'Tacoma', county: 'Pierce', count: 28 },
-            { date: '2023-01', area: 'Bellevue', county: 'King', count: 22 },
-            { date: '2023-01', area: 'Everett', county: 'Snohomish', count: 18 },
-            { date: '2023-02', area: 'Seattle', county: 'King', count: 52 },
-            { date: '2023-02', area: 'Tacoma', county: 'Pierce', count: 32 },
-            { date: '2023-02', area: 'Bellevue', county: 'King', count: 26 },
-            { date: '2023-02', area: 'Everett', county: 'Snohomish', count: 21 },
-            { date: '2023-03', area: 'Seattle', county: 'King', count: 58 },
-            { date: '2023-03', area: 'Tacoma', county: 'Pierce', count: 35 },
-            { date: '2023-03', area: 'Bellevue', county: 'King', count: 29 },
-            { date: '2023-03', area: 'Everett', county: 'Snohomish', count: 24 }
-        ]};
-        
         const colors = { text: '#e0e0e0', border: '#404040', bg: '#242424', palette: ['#0066cc', '#ff6b6b', '#51cf66', '#ffd43b'] };
         
-        document.addEventListener('DOMContentLoaded', () => {
-            const areaData = {}, areaCounties = {};
-            sampleData.deportations.forEach(r => {
-                areaData[r.area] = (areaData[r.area] || 0) + r.count;
-                areaCounties[r.area] = r.county;
-            });
-            
-            new Chart(document.getElementById('distributionChart'), {
-                type: 'doughnut',
-                data: {
-                    labels: Object.keys(areaData),
-                    datasets: [{ data: Object.values(areaData), backgroundColor: colors.palette, borderColor: colors.bg, borderWidth: 2 }]
-                },
-                options: {
-                    responsive: true, maintainAspectRatio: false,
-                    plugins: { legend: { position: 'bottom', labels: { color: colors.text, font: { size: 11 }, padding: 15 } } }
-                }
-            });
-            
-            const total = Object.values(areaData).reduce((a, b) => a + b, 0);
-            const grid = document.getElementById('statsGrid');
-            Object.entries(areaData).sort((a, b) => b[1] - a[1]).forEach(([area, count]) => {
-                const box = document.createElement('div');
-                box.className = 'stat-box';
-                box.innerHTML = `<div class="stat-label">${area} (${areaCounties[area]})</div><div class="stat-value">${count}</div><small style="color:#a0a0a0;">${((count/total)*100).toFixed(1)}%</small>`;
-                grid.appendChild(box);
-            });
-        });
+        async function loadData() {
+            try {
+                const response = await fetch('assets/arrests-data.geojson');
+                const geojson = await response.json();
+                const features = geojson.features;
+                const areaData = {}, areaCounties = {};
+                
+                features.forEach(f => {
+                    const area = f.properties.apprehension_site_landmark || 'Unknown';
+                    areaData[area] = (areaData[area] || 0) + 1;
+                });
+                
+                new Chart(document.getElementById('distributionChart'), {
+                    type: 'doughnut',
+                    data: {
+                        labels: Object.keys(areaData),
+                        datasets: [{ data: Object.values(areaData), backgroundColor: colors.palette, borderColor: colors.bg, borderWidth: 2 }]
+                    },
+                    options: {
+                        responsive: true, maintainAspectRatio: false,
+                        plugins: { legend: { position: 'bottom', labels: { color: colors.text, font: { size: 11 }, padding: 15 } } }
+                    }
+                });
+                
+                const total = Object.values(areaData).reduce((a, b) => a + b, 0);
+                const grid = document.getElementById('statsGrid');
+                Object.entries(areaData).sort((a, b) => b[1] - a[1]).forEach(([area, count]) => {
+                    const box = document.createElement('div');
+                    box.className = 'stat-box';
+                    box.innerHTML = `<div class="stat-label">${area}</div><div class="stat-value">${count}</div><small style="color:#a0a0a0;">${((count/total)*100).toFixed(1)}%</small>`;
+                    grid.appendChild(box);
+                });
+            } catch (e) { console.error('Error loading data:', e); }
+        }
+        
+        document.addEventListener('DOMContentLoaded', loadData);
         
         function downloadChart() {
             const link = document.createElement('a');
