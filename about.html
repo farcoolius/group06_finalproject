@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Group 6 Deportation in Washington</title>
+        <style>
+            body {
+                background-color: #1e1e1e;
+                color: #e5e5e5;
+                font-family: Arial, Helvetica, sans-serif;
+                margin: 0;
+            }
+            header {
+                background-color: #111;
+                padding: 15px 25px;
+                border-bottom: 1px solid #444;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            header h1 {
+                font-size: 1.4rem;
+                margin: 0;
+            }
+            a {
+                color: #374fb6;
+                text-decoration: none;
+                font-size: 0.9rem;
+            }
+            a:hover {
+                color: #7a8ad2;
+            }
+            .container {
+                max-width: 900px;
+                margin: 40px auto;
+                padding: 0 20px;
+            }
+            h2 {
+                font-size: 1.2rem;
+                margin-top: 30px;
+                margin-bottom: 10px;
+            }
+            .card {
+                background:#2a2a2a;
+                border:1px solid #444;
+                padding:18px;
+                border-radius:6px;
+                margin-bottom:20px;
+            }
+
+            .contributors {
+                display:flex;
+                gap:15px;
+                margin-top:10px;
+            }
+
+            .avatar {
+                width:60px;
+                height:60px;
+                border-radius:50%;
+                background:#444;
+                display:flex;
+                justify-content:center;
+                align-items:center;
+                font-size:24px;
+            }
+
+            footer {
+                background:#111;
+                border-top:1px solid #444;
+                text-align:center;
+                padding:15px;
+                font-size:.85rem;
+                color:#aaa;
+                margin-top:40px;
+            }
+        </style>
+    </head>
+    <body>
+    <header>
+        <h1>Deportation in Washington State</h1>
+        <p>Group 6</p>
+    </header>
+
+    <div class="container">
+        <h2>Description</h2>
+        <div class="card">
+            <p>
+                This project explores deporation patterns across Washington State through an interactive web-based map. 
+                In response to the current political climate and the growing public debate regarding immigration enforcement, 
+                our group created a tool in hopes of helping users better understand deportation data in a way that is visually clear
+                and accessible. 
+                <br>
+                <br>
+                We used Mapbox GL JS to create the interactive map, allowing users to explore deportation rates at multiple zoom levels. 
+                Using this data allowed us to highlight statistics such as total deportations in a specific boundary location, as well monthly
+                averages and amount of areas tracked. 
+                <br>
+                <br>
+                We also were able to make a deportation timeline analysis using Chart.js to visualize temporal trends in deportation 
+                enforcement across the Seattle metro region and identify seasonal patterns or anomalies.
+
+                Ultimately, we decided to focus on deporation rates in Washington to raise awareness of the current issue and allow for an accessible
+                platform for all users to be able to easily use and understand.
+
+            </p>
+        </div>
+        <h2>Datasets</h2>
+        <div class="card">
+            <p>
+                The data used in this project was collected from a public website that collects and reposts datasets from
+                Immigration Customs Enforcement (ICE), Customs and Border Protection (CBP), and 
+                the Justice Department Executive Office of Immigration Review (EOIR). These datasets 
+                include processed data on arrests, detains, and transports. We decided to use the processed ICE data that they
+                provide to facilitate analysis.
+                <br>
+                
+                <br>
+                Data Sources:
+            <br><br>
+            <a href="https://deportationdata.org/data.html">Deportation Data Project Data Portal</a><br>
+            <a href="https://deportationdata.org/data/processed/ice.html">Processed ICE Data</a>
+            </p>
+        </div>
+
+        <h2>Contributors</h2>
+        <div class="contributors">
+            <div class="avatar">👤</div>
+            <p>Cathya</p>
+            <div class="avatar">👤</div>
+            <p>Farhan</p>
+            <div class="avatar">👤</div>
+            <p>Irving</p>
+            <div class="avatar">👤</div>
+            <p>Max</p>
+        </div>
+    </div>
+    <footer>
+        <p>GEOG 458 Group 6 Final Project: Deportation in Washington State</p>
+    </footer>
+    </body>
+</html>
