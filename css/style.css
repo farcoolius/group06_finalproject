@@ -73,12 +73,31 @@ body {
     font-size: 1.1rem;
     font-weight: bold;
     margin-bottom: 12px;
+    color: #ffffff;
+}
+
+.info-text {
+    color: #e0e0e0;
+    font-size: 0.95rem;
+    line-height: 1.5;
 }
 
 .stat-item {
     display: flex;
     justify-content: space-between;
     margin-bottom: 8px;
+    color: #ffffff;
+}
+
+.stat-label {
+    color: #b0b0b0;
+    font-size: 0.9rem;
+}
+
+.stat-value {
+    color: #00d4ff;
+    font-weight: bold;
+    font-size: 1.1rem;
 }
 
 .map-controls {
