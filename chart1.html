@@ -14,138 +14,31 @@
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
     
-    <!-- Dark Mode CSS -->
     <style>
         :root {
-            --bg-primary: #1a1a1a;
-            --bg-secondary: #242424;
-            --bg-tertiary: #2d2d2d;
-            --text-primary: #e0e0e0;
-            --text-secondary: #a0a0a0;
-            --border-color: #404040;
+            --bg1: #1a1a1a; --bg2: #242424; --bg3: #2d2d2d;
+            --text1: #e0e0e0; --text2: #a0a0a0; --border: #404040;
         }
-
-        body {
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            overflow-x: hidden;
-        }
-
-        html, body {
-            height: 100%;
-        }
-
-        .navbar {
-            background-color: var(--bg-secondary) !important;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .navbar-brand {
-            font-size: 1.1rem;
-            font-weight: 600;
-        }
-
-        .chart-wrapper {
-            height: calc(100vh - 150px);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: stretch;
-            padding: 20px;
-        }
-
-        .chart-container {
-            background-color: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 20px;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .chart-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 10px;
-            color: var(--text-primary);
-        }
-
-        .chart-description {
-            font-size: 0.95rem;
-            color: var(--text-secondary);
-            margin-bottom: 20px;
-        }
-
-        #chart {
-            flex: 1;
-            position: relative;
-        }
-
-        .controls {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .btn-dark {
-            background-color: var(--bg-tertiary);
-            border: 1px solid var(--border-color);
-            color: var(--text-primary);
-        }
-
-        .btn-dark:hover {
-            background-color: #0066cc;
-            border-color: #0066cc;
-        }
-
-        .info-section {
-            background-color: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 15px;
-            margin-top: 20px;
-        }
-
-        .info-section h5 {
-            color: var(--text-primary);
-            margin-bottom: 10px;
-        }
-
-        .info-section p {
-            color: var(--text-secondary);
-            margin: 0;
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
-
-        .footer {
-            background-color: var(--bg-secondary);
-            border-top: 1px solid var(--border-color);
-            padding: 12px;
-            text-align: center;
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            margin-top: 20px;
-        }
-
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--bg-tertiary);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--border-color);
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--text-secondary);
-        }
+        html, body { height: 100%; }
+        body { background: var(--bg1); color: var(--text1); font-family: 'Segoe UI', sans-serif; overflow-x: hidden; }
+        .navbar { background: var(--bg2)!important; border-bottom: 1px solid var(--border); }
+        .navbar-brand { font-size: 1.1rem; font-weight: 600; }
+        .chart-wrapper { height: calc(100vh - 150px); display: flex; flex-direction: column; padding: 20px; }
+        .chart-container { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 20px; flex: 1; display: flex; flex-direction: column; }
+        .chart-title { font-size: 1.5rem; font-weight: 600; margin-bottom: 10px; color: var(--text1); }
+        .chart-description { font-size: 0.95rem; color: var(--text2); margin-bottom: 20px; }
+        #chart { flex: 1; position: relative; }
+        .controls { display: flex; gap: 10px; margin-top: 15px; }
+        .btn-dark { background: var(--bg3); border: 1px solid var(--border); color: var(--text1); }
+        .btn-dark:hover { background: #0066cc; border-color: #0066cc; }
+        .info-section { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 15px; margin-top: 20px; }
+        .info-section h5 { color: var(--text1); margin-bottom: 10px; }
+        .info-section p { color: var(--text2); margin: 0; font-size: 0.9rem; line-height: 1.5; }
+        .footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 12px; text-align: center; font-size: 0.85rem; color: var(--text2); margin-top: 20px; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg3); }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--text2); }
     </style>
 </head>
 <body class="dark-mode">
@@ -222,132 +115,71 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        // Chart colors
-        const chartColors = {
-            text: '#e0e0e0',
-            border: '#404040',
-            bg: '#242424',
-            primary: '#0066cc',
-        };
-
-        // Function to extract month from date string (YYYY-MM-DD)
-        function extractMonth(dateString) {
-            return dateString.substring(0, 7); // Returns YYYY-MM
-        }
-
-        // Load and process GeoJSON data
+        const colors = { text: '#e0e0e0', border: '#404040', bg: '#242424', primary: '#0066cc' };
+        
         async function loadArrestsData() {
             try {
-                const response = await fetch('assets/arrests-data.geojson');
-                const geojsonData = await response.json();
-                
-                // Extract monthly counts from features
-                const monthlyData = {};
-                geojsonData.features.forEach(feature => {
-                    if (feature.properties && feature.properties.apprehension_date) {
-                        const date = feature.properties.apprehension_date;
-                        const month = extractMonth(date);
-                        monthlyData[month] = (monthlyData[month] || 0) + 1;
+                const data = await (await fetch('assets/arrests-data.geojson')).json();
+                const monthly = {};
+                data.features.forEach(f => {
+                    if (f.properties?.apprehension_date) {
+                        const m = f.properties.apprehension_date.substring(0, 7);
+                        monthly[m] = (monthly[m] || 0) + 1;
                     }
                 });
-                
-                return monthlyData;
-            } catch (error) {
-                console.error('Error loading arrests data:', error);
-                return {};
-            }
+                return monthly;
+            } catch (e) { return {}; }
         }
-
-        // Initialize chart
-        document.addEventListener('DOMContentLoaded', async function() {
-            const monthlyData = await loadArrestsData();
-            initializeChart(monthlyData);
-            updateDataSummary(monthlyData);
-        });
-
-        function initializeChart(monthlyData) {
-            const sortedMonths = Object.keys(monthlyData).sort();
-            const ctx = document.getElementById('timelineChart').getContext('2d');
-            
-            new Chart(ctx, {
+        
+        function initChart(monthly) {
+            const months = Object.keys(monthly).sort();
+            const data = months.map(m => monthly[m]);
+            new Chart(document.getElementById('timelineChart'), {
                 type: 'line',
                 data: {
-                    labels: sortedMonths,
+                    labels: months,
                     datasets: [{
                         label: 'Monthly Apprehensions',
-                        data: sortedMonths.map(month => monthlyData[month]),
-                        borderColor: chartColors.primary,
+                        data: data,
+                        borderColor: colors.primary,
                         backgroundColor: 'rgba(0, 102, 204, 0.1)',
-                        borderWidth: 3,
-                        fill: true,
-                        tension: 0.4,
-                        pointRadius: 6,
-                        pointBackgroundColor: chartColors.primary,
-                        pointBorderColor: '#fff',
-                        pointBorderWidth: 2,
-                        pointHoverRadius: 8
+                        borderWidth: 3, fill: true, tension: 0.4,
+                        pointRadius: 6, pointBackgroundColor: colors.primary,
+                        pointBorderColor: '#fff', pointBorderWidth: 2, pointHoverRadius: 8
                     }]
                 },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: true,
-                            labels: {
-                                color: chartColors.text,
-                                font: { size: 12, weight: 'bold' }
-                            }
-                        }
-                    },
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { display: true, labels: { color: colors.text, font: { size: 12, weight: 'bold' } } } },
                     scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                color: chartColors.text,
-                                font: { size: 11 }
-                            },
-                            grid: {
-                                color: chartColors.border
-                            }
-                        },
-                        x: {
-                            ticks: {
-                                color: chartColors.text,
-                                font: { size: 11 }
-                            },
-                            grid: {
-                                color: chartColors.border
-                            }
-                        }
+                        y: { beginAtZero: true, ticks: { color: colors.text, font: { size: 11 } }, grid: { color: colors.border } },
+                        x: { ticks: { color: colors.text, font: { size: 11 } }, grid: { color: colors.border } }
                     }
                 }
             });
         }
-
-        function updateDataSummary(monthlyData) {
-            const months = Object.keys(monthlyData);
-            const counts = Object.values(monthlyData);
-            const total = counts.reduce((a, b) => a + b, 0);
-            const avg = months.length > 0 ? (total / months.length).toFixed(0) : 0;
-            const max = months.length > 0 ? Math.max(...counts) : 0;
-            const maxMonth = months.find(m => monthlyData[m] === max) || 'N/A';
-
+        
+        function updateSummary(monthly) {
+            const months = Object.keys(monthly);
+            const total = Object.values(monthly).reduce((a, b) => a + b, 0);
+            const max = Math.max(...Object.values(monthly));
+            const maxMonth = months.find(m => monthly[m] === max);
             document.getElementById('totalCount').textContent = total;
-            document.getElementById('avgMonthly').textContent = avg;
-            document.getElementById('maxMonth').textContent = months.length > 0 ? `${maxMonth} (${max} apprehensions)` : 'No data';
+            document.getElementById('avgMonthly').textContent = months.length ? (total / months.length).toFixed(0) : 0;
+            document.getElementById('maxMonth').textContent = months.length ? `${maxMonth} (${max})` : 'N/A';
         }
-
+        
+        document.addEventListener('DOMContentLoaded', async () => {
+            const m = await loadArrestsData();
+            initChart(m);
+            updateSummary(m);
+        });
+        
         function downloadChart() {
-            const canvas = document.getElementById('timelineChart');
             const link = document.createElement('a');
-            link.href = canvas.toDataURL('image/png');
-            link.download = 'deportation-timeline.png';
+            link.href = document.getElementById('timelineChart').toDataURL('image/png');
+            link.download = 'chart1.png';
             link.click();
-        }
-
-        function printChart() {
-            window.print();
         }
     </script>
 </body>
