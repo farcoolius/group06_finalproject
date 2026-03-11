@@ -6,16 +6,17 @@
         <title>Group 6 Deportation in Washington</title>
         <style>
             body {
-                background-color: #1e1e1e;
-                color: #e5e5e5;
+                background-color: #f9f9f9;
+                color: #2c2c2c;
                 font-family: Arial, Helvetica, sans-serif;
                 margin: 0;
                 line-height: 1.6;
             }
             header {
-                background-color: #111;
+                background-color: #ffffff;
                 padding: 15px 25px;
-                border-bottom: 1px solid #444;
+                border-bottom: 1px solid #e0e0e0;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.05);
             }
             header h1 {
                 font-size: 1.4rem;
@@ -24,21 +25,21 @@
             .breadcrumb {
                 font-size: 0.9rem;
                 margin-top: 10px;
-                color: #aaa;
+                color: #666;
             }
             .breadcrumb a {
-                color: #374fb6;
+                color: #1565c0;
                 text-decoration: none;
             }
             .breadcrumb a:hover {
-                color: #7a8ad2;
+                color: #0d47a1;
             }
             a {
-                color: #374fb6;
+                color: #1565c0;
                 text-decoration: none;
             }
             a:hover {
-                color: #7a8ad2;
+                color: #0d47a1;
             }
             .hero {
                 max-width: 1000px;
@@ -54,7 +55,7 @@
             }
             .hero-caption {
                 font-size: 0.9rem;
-                color: #aaa;
+                color: #666;
                 font-style: italic;
                 margin-bottom: 30px;
             }
@@ -67,12 +68,13 @@
                 font-size: 1.3rem;
                 margin-top: 35px;
                 margin-bottom: 15px;
-                border-bottom: 2px solid #374fb6;
+                border-bottom: 3px solid #2196F3;
                 padding-bottom: 8px;
+                color: #1565c0;
             }
             p {
                 margin-bottom: 15px;
-                color: #d0d0d0;
+                color: #444;
             }
             .team-grid {
                 display: grid;
@@ -81,34 +83,41 @@
                 margin: 20px 0;
             }
             .team-member {
-                background: #2a2a2a;
-                border: 1px solid #444;
+                background: #ffffff;
+                border: 1px solid #e0e0e0;
                 padding: 20px;
                 border-radius: 4px;
+                box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+                transition: transform 0.3s, box-shadow 0.3s;
+            }
+            .team-member:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(33, 150, 243, 0.15);
             }
             .team-member h3 {
                 margin: 0 0 5px 0;
                 font-size: 1rem;
-                color: #e5e5e5;
+                color: #1565c0;
             }
             .team-member .role {
                 font-size: 0.85rem;
-                color: #999;
+                color: #666;
                 margin-bottom: 10px;
             }
             .team-member .email {
                 font-size: 0.9rem;
             }
             .team-member .email a {
-                color: #374fb6;
+                color: #1565c0;
                 word-break: break-all;
             }
             .section-content {
-                background: #2a2a2a;
-                border: 1px solid #444;
+                background: #ffffff;
+                border: 1px solid #e0e0e0;
                 padding: 20px;
                 border-radius: 4px;
                 margin-bottom: 20px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.05);
             }
             .links-grid {
                 display: grid;
@@ -119,24 +128,26 @@
             .links-grid a {
                 display: block;
                 padding: 10px;
-                background: #2a2a2a;
-                border: 1px solid #444;
+                background: #ffffff;
+                border: 2px solid #2196F3;
                 border-radius: 4px;
                 text-decoration: none;
-                color: #374fb6;
+                color: #1565c0;
                 transition: all 0.3s;
+                font-weight: 500;
             }
             .links-grid a:hover {
-                background: #333;
-                color: #7a8ad2;
+                background: #f0f8ff;
+                color: #0d47a1;
+                box-shadow: 0 4px 8px rgba(33, 150, 243, 0.2);
             }
             footer {
-                background:#111;
-                border-top:1px solid #444;
+                background:#ffffff;
+                border-top:2px solid #e0e0e0;
                 text-align:center;
                 padding:20px;
                 font-size:.85rem;
-                color:#aaa;
+                color:#666;
                 margin-top:40px;
             }
             footer a {
@@ -160,7 +171,7 @@
     </header>
 
     <div class="hero">
-        <p style="font-size: 1.1rem; color: #999; margin: 30px 0 20px 0;">
+        <p style="font-size: 1.1rem; color: #555; margin: 30px 0 20px 0;">
             Immigration enforcement and deportation patterns across Washington State through interactive geovisualization.
         </p>
     </div>
@@ -230,25 +241,25 @@
 
         <h2>Visualizations</h2>
         <div class="section-content">
-            <h3 style="margin-top: 0; color: #374fb6;">Interactive Deportation Data Map</h3>
+            <h3 style="margin-top: 0; color: #1565c0;">Interactive Deportation Data Map</h3>
             <p>
                 The main interactive map displays ICE arrest data across the Seattle metropolitan area, including King, Pierce, and Snohomish counties.
                 Users can hover over regions to see detailed statistics, with visual indicators showing arrest density through color-coded circles.
             </p>
-            <p style="font-size: 0.9rem; color: #aaa; font-style: italic;">
+            <p style="font-size: 0.9rem; color: #888; font-style: italic;">
                 Interactive Geographic Analysis showing arrest density and statistics across the Seattle metro area.
             </p>
             <img src="assets/Screenshot_10-3-2026_173228_127.0.0.1.jpeg" alt="Project Screenshot" style="width: 100%; border-radius: 4px; margin: 15px 0;">
         </div>
 
         <div class="section-content">
-            <h3 style="margin-top: 0; color: #374fb6;">Area Distribution Analysis</h3>
+            <h3 style="margin-top: 0; color: #1565c0;">Area Distribution Analysis</h3>
             <p>
                 This doughnut chart visualization displays the distribution of ICE apprehensions by location across all of Washington State from 2023-2025.
                 Each segment represents the proportion of total apprehensions at each apprehension site, helping identify which locations account for 
                 the largest share of enforcement activity.
             </p>
-            <p style="font-size: 0.9rem; color: #aaa; font-style: italic;">
+            <p style="font-size: 0.9rem; color: #888; font-style: italic;">
                 Apprehension Sites Distribution showing the concentration of ICE enforcement activity across Washington State detention locations.
             </p>
             <img src="assets/Screenshot_10-3-2026_173146_127.0.0.1.jpeg" alt="Project Screenshot" style="width: 100%; border-radius: 4px; margin: 15px 0;">
@@ -261,9 +272,9 @@
                 The data used in this project is sourced from public datasets compiled by:
             </p>
             <ul>
-                <li>Immigration Customs Enforcement (ICE)</li>
+                <li>Deportation Data Project </li>
                 <li>Customs and Border Protection (CBP)</li>
-                <li>Justice Department Executive Office of Immigration Review (EOIR)</li>
+                <li>State of Washington and City of Seattle</li>
             </ul>
             <p>
                 External Resources:
@@ -317,7 +328,7 @@
                 <li><strong>D3.js</strong> - Data visualization</li>
             </ul>
             <p>
-                The project is hosted on GitHub under an MIT license.
+                The project is hosted on GitHub.
             </p>
         </div>
 
