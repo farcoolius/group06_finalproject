@@ -10,134 +10,334 @@
                 color: #e5e5e5;
                 font-family: Arial, Helvetica, sans-serif;
                 margin: 0;
+                line-height: 1.6;
             }
             header {
                 background-color: #111;
                 padding: 15px 25px;
                 border-bottom: 1px solid #444;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
             }
             header h1 {
                 font-size: 1.4rem;
                 margin: 0;
             }
+            .breadcrumb {
+                font-size: 0.9rem;
+                margin-top: 10px;
+                color: #aaa;
+            }
+            .breadcrumb a {
+                color: #374fb6;
+                text-decoration: none;
+            }
+            .breadcrumb a:hover {
+                color: #7a8ad2;
+            }
             a {
                 color: #374fb6;
                 text-decoration: none;
-                font-size: 0.9rem;
             }
             a:hover {
                 color: #7a8ad2;
             }
+            .hero {
+                max-width: 1000px;
+                margin: 30px auto;
+                padding: 0 20px;
+            }
+            .hero img {
+                width: 100%;
+                max-height: 400px;
+                object-fit: cover;
+                border-radius: 4px;
+                margin-bottom: 10px;
+            }
+            .hero-caption {
+                font-size: 0.9rem;
+                color: #aaa;
+                font-style: italic;
+                margin-bottom: 30px;
+            }
             .container {
                 max-width: 900px;
-                margin: 40px auto;
+                margin: 0 auto;
                 padding: 0 20px;
             }
             h2 {
-                font-size: 1.2rem;
-                margin-top: 30px;
+                font-size: 1.3rem;
+                margin-top: 35px;
+                margin-bottom: 15px;
+                border-bottom: 2px solid #374fb6;
+                padding-bottom: 8px;
+            }
+            p {
+                margin-bottom: 15px;
+                color: #d0d0d0;
+            }
+            .team-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 20px;
+                margin: 20px 0;
+            }
+            .team-member {
+                background: #2a2a2a;
+                border: 1px solid #444;
+                padding: 20px;
+                border-radius: 4px;
+            }
+            .team-member h3 {
+                margin: 0 0 5px 0;
+                font-size: 1rem;
+                color: #e5e5e5;
+            }
+            .team-member .role {
+                font-size: 0.85rem;
+                color: #999;
                 margin-bottom: 10px;
             }
-            .card {
-                background:#2a2a2a;
-                border:1px solid #444;
-                padding:18px;
-                border-radius:6px;
-                margin-bottom:20px;
+            .team-member .email {
+                font-size: 0.9rem;
             }
-
-            .contributors {
-                display:flex;
-                gap:15px;
-                margin-top:10px;
+            .team-member .email a {
+                color: #374fb6;
+                word-break: break-all;
             }
-
-            .avatar {
-                width:60px;
-                height:60px;
-                border-radius:50%;
-                background:#444;
-                display:flex;
-                justify-content:center;
-                align-items:center;
-                font-size:24px;
+            .section-content {
+                background: #2a2a2a;
+                border: 1px solid #444;
+                padding: 20px;
+                border-radius: 4px;
+                margin-bottom: 20px;
             }
-
+            .links-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 15px;
+                margin: 15px 0;
+            }
+            .links-grid a {
+                display: block;
+                padding: 10px;
+                background: #2a2a2a;
+                border: 1px solid #444;
+                border-radius: 4px;
+                text-decoration: none;
+                color: #374fb6;
+                transition: all 0.3s;
+            }
+            .links-grid a:hover {
+                background: #333;
+                color: #7a8ad2;
+            }
             footer {
                 background:#111;
                 border-top:1px solid #444;
                 text-align:center;
-                padding:15px;
+                padding:20px;
                 font-size:.85rem;
                 color:#aaa;
                 margin-top:40px;
+            }
+            footer a {
+                margin: 0 10px;
+            }
+            ul {
+                margin: 10px 0;
+                padding-left: 20px;
+            }
+            li {
+                margin-bottom: 8px;
             }
         </style>
     </head>
     <body>
     <header>
         <h1>Deportation in Washington State</h1>
-        <p>Group 6</p>
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> / About
+        </div>
     </header>
 
+    <div class="hero">
+        <p style="font-size: 1.1rem; color: #999; margin: 30px 0 20px 0;">
+            Immigration enforcement and deportation patterns across Washington State through interactive geovisualization.
+        </p>
+    </div>
+
     <div class="container">
-        <h2>Description</h2>
-        <div class="card">
+        <h2>Project Summary</h2>
+        <div class="section-content">
             <p>
-                This project explores deporation patterns across Washington State through an interactive web-based map. 
+                This project explores deportation patterns across Washington State through an interactive web-based geovisualization. 
                 In response to the current political climate and the growing public debate regarding immigration enforcement, 
-                our group created a tool in hopes of helping users better understand deportation data in a way that is visually clear
-                and accessible. 
-                <br>
-                <br>
-                We used Mapbox GL JS to create the interactive map, allowing users to explore deportation rates at multiple zoom levels. 
-                Using this data allowed us to highlight statistics such as total deportations in a specific boundary location, as well monthly
-                averages and amount of areas tracked. 
-                <br>
-                <br>
-                We also were able to make a deportation timeline analysis using Chart.js to visualize temporal trends in deportation 
-                enforcement across the Seattle metro region and identify seasonal patterns or anomalies.
-
-                Ultimately, we decided to focus on deporation rates in Washington to raise awareness of the current issue and allow for an accessible
-                platform for all users to be able to easily use and understand.
-
+                our group created a tool to help users better understand deportation data in a visually clear and accessible manner.
             </p>
-        </div>
-        <h2>Datasets</h2>
-        <div class="card">
             <p>
-                The data used in this project was collected from a public website that collects and reposts datasets from
-                Immigration Customs Enforcement (ICE), Customs and Border Protection (CBP), and 
-                the Justice Department Executive Office of Immigration Review (EOIR). These datasets 
-                include processed data on arrests, detains, and transports. We decided to use the processed ICE data that they
-                provide to facilitate analysis.
-                <br>
-                
-                <br>
-                Data Sources:
-            <br><br>
-            <a href="https://deportationdata.org/data.html">Deportation Data Project Data Portal</a><br>
-            <a href="https://deportationdata.org/data/processed/ice.html">Processed ICE Data</a>
+                We developed an interactive Mapbox GL JS-based map that allows users to explore deportation patterns at multiple zoom levels
+                across Washington State, with the ability to view detailed statistics for specific regions through interactive features.
             </p>
         </div>
 
-        <h2>Contributors</h2>
-        <div class="contributors">
-            <div class="avatar">👤</div>
-            <p>Cathya</p>
-            <div class="avatar">👤</div>
-            <p>Farhan</p>
-            <div class="avatar">👤</div>
-            <p>Irving</p>
-            <div class="avatar">👤</div>
-            <p>Max</p>
+        <h2>Background</h2>
+        <div class="section-content">
+            <p>
+                Immigration enforcement remains a contentious policy issue in the United States. Understanding the spatial patterns
+                and distribution of deportations can help inform public discourse and raise awareness about this critical issue.
+            </p>
+            <p>
+                This project focuses specifically on Washington State to examine deportation patterns and trends in this region.
+                By visualizing this data geographically, we aim to provide insights into how immigration enforcement is distributed
+                across different counties and municipalities in Washington.
+            </p>
+        </div>
+
+        <h2>Data & Methodology</h2>
+        <div class="section-content">
+            <p>
+                <strong>Data Sources:</strong>
+            </p>
+            <ul>
+                <li>Immigration Customs Enforcement (ICE) data</li>
+                <li>Data processed and aggregated by the Deportation Data Project</li>
+                <li>Geospatial data for Washington State administrative boundaries</li>
+            </ul>
+            <p>
+                <strong>Tools & Technologies:</strong>
+            </p>
+            <ul>
+                <li><strong>Mapbox GL JS</strong> - Interactive mapping and visualization</li>
+                <li><strong>Chart.js</strong> - Temporal trend analysis and visualization</li>
+                <li><strong>GeoJSON</strong> - Geospatial data format for mapping</li>
+                <li><strong>HTML/CSS/JavaScript</strong> - Web interface development</li>
+            </ul>
+            <p>
+                The project includes both a spatial visualization of deportation patterns across Washington State
+                and a timeline analysis showing temporal trends in deportation enforcement.
+            </p>
+        </div>
+
+        <h2>Features</h2>
+        <div class="section-content">
+            <ul>
+                <li>Interactive map with county-level deportation data visualization</li>
+                <li>Zoom and pan functionality to explore different regions</li>
+                <li>Temporal trend analysis with Chart.js visualizations</li>
+                <li>Responsive design for desktop and mobile viewing</li>
+                <li>Data aggregation showing total deportations, monthly averages, and tracked areas</li>
+            </ul>
+        </div>
+
+        <h2>Visualizations</h2>
+        <div class="section-content">
+            <h3 style="margin-top: 0; color: #374fb6;">Interactive Deportation Data Map</h3>
+            <p>
+                The main interactive map displays ICE arrest data across the Seattle metropolitan area, including King, Pierce, and Snohomish counties.
+                Users can hover over regions to see detailed statistics, with visual indicators showing arrest density through color-coded circles.
+            </p>
+            <p style="font-size: 0.9rem; color: #aaa; font-style: italic;">
+                Interactive Geographic Analysis showing arrest density and statistics across the Seattle metro area.
+            </p>
+            <img src="assets/Screenshot_10-3-2026_173228_127.0.0.1.jpeg" alt="Project Screenshot" style="width: 100%; border-radius: 4px; margin: 15px 0;">
+        </div>
+
+        <div class="section-content">
+            <h3 style="margin-top: 0; color: #374fb6;">Area Distribution Analysis</h3>
+            <p>
+                This doughnut chart visualization displays the distribution of ICE apprehensions by location across all of Washington State from 2023-2025.
+                Each segment represents the proportion of total apprehensions at each apprehension site, helping identify which locations account for 
+                the largest share of enforcement activity.
+            </p>
+            <p style="font-size: 0.9rem; color: #aaa; font-style: italic;">
+                Apprehension Sites Distribution showing the concentration of ICE enforcement activity across Washington State detention locations.
+            </p>
+            <img src="assets/Screenshot_10-3-2026_173146_127.0.0.1.jpeg" alt="Project Screenshot" style="width: 100%; border-radius: 4px; margin: 15px 0;">
+        </div>
+
+
+        <h2>Data Sources</h2>
+        <div class="section-content">
+            <p>
+                The data used in this project is sourced from public datasets compiled by:
+            </p>
+            <ul>
+                <li>Immigration Customs Enforcement (ICE)</li>
+                <li>Customs and Border Protection (CBP)</li>
+                <li>Justice Department Executive Office of Immigration Review (EOIR)</li>
+            </ul>
+            <p>
+                External Resources:
+            </p>
+            <div class="links-grid">
+                <a href="https://deportationdata.org/data.html">Deportation Data Project Portal</a>
+                <a href="https://deportationdata.org/data/processed/ice.html">Processed ICE Data</a>
+            </div>
+        </div>
+
+        <h2>Our Team</h2>
+        <div class="team-grid">
+            <div class="team-member">
+                <h3>Cathya</h3>
+                <div class="email">
+                    <a href="mailto:cathyat@uw.edu">cathyat@uw.edu</a>
+                </div>
+            </div>
+            <div class="team-member">
+                <h3>Farhan</h3>
+                <div class="email">
+                    <a href="mailto:farhass@uw.edu">farhass@uw.edu</a>
+                </div>
+            </div>
+            <div class="team-member">
+                <h3>Irving</h3>
+                <div class="email">
+                    <a href="mailto:irving06@uw.edu">irving06@uw.edu</a>
+                </div>
+            </div>
+            <div class="team-member">
+                <h3>Max Marchand</h3>
+                <div class="email">
+                    <a href="mailto:mfm23@uw.edu">mfm23@uw.edu</a>
+                </div>
+            </div>
+        </div>
+
+        <h2>Credits</h2>
+        <div class="section-content">
+            <p>
+                This project was created by students at the University of Washington as a final project for GEOG 458.
+            </p>
+            <p>
+                Libraries and tools used:
+            </p>
+            <ul>
+                <li><strong>Mapbox GL JS</strong> - Interactive mapping library</li>
+                <li><strong>Chart.js</strong> - JavaScript charting library</li>
+                <li><strong>Leaflet</strong> - Mapping framework</li>
+                <li><strong>D3.js</strong> - Data visualization</li>
+            </ul>
+            <p>
+                The project is hosted on GitHub under an MIT license.
+            </p>
+        </div>
+
+        <h2>Additional Links</h2>
+        <div class="links-grid">
+            <a href="index.html">Home Page</a>
+            <a href="chart1.html">Timeline Analysis</a>
+            <a href="chart2.html">Additional Visualizations</a>
+            <a href="about.html">About This Project</a>
         </div>
     </div>
+
     <footer>
         <p>GEOG 458 Group 6 Final Project: Deportation in Washington State</p>
+        <p>
+            <a href="index.html">Home</a> | 
+            <a href="chart1.html">Timeline</a> | 
+            <a href="chart2.html">Charts</a> | 
+            <a href="about.html">About</a>
+        </p>
     </footer>
     </body>
 </html>
