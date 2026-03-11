@@ -33,8 +33,6 @@ This project is an interactive web map that visualizes deportation rates across 
 
 ![Chart view](./assets/Screenshot_10-3-2026_173146_127.0.0.1.jpeg)
 
-> Ensure both screenshot files are committed into `assets/` so they render in README.
-
 ## Data Sources
 - [Deportation Data Project Data Portal](https://deportationdata.org/index.html)
 - [Processed ICE Data](https://deportationdata.org/data/processed/ice.html)
