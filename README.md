@@ -1,22 +1,66 @@
 # Group 6 - Deportation in Washington State
 
-## Description
-This project explores deporation patterns across Washington State through an interactive web-based map. In response to the current political climate and the growing public debate regarding immigration enforcement, our group created a tool in hopes of helping users better understand deportation data in a way that is visually clear and accessible.
+## Project Title
+Deportation in Washington State (Interactive Map)
 
-We used Mapbox GL JS to create the interactive map, allowing users to explore deportation rates at multiple zoom levels. Using this data allowed us to highlight statistics such as total deportations in a specific boundary location, as well monthly averages and amount of areas tracked.
+## Project URL
+https://github.com/farcoolius/group06_finalproject.git
 
-We also were able to make a deportation timeline analysis using Chart.js to visualize temporal trends in deportation enforcement across the Seattle metro region and identify seasonal patterns or anomalies. Ultimately, we decided to focus on deporation rates in Washington to raise awareness of the current issue and allow for an accessible platform for all users to be able to easily use and understand.
+## Team Members
+- Cathya
+- Farhan
+- Irving
+- Max
 
-## Datasets
-The data used in this project was collected from a public website that collects and reposts datasets from Immigration Customs Enforcement (ICE), Customs and Border Protection (CBP), and the Justice Department Executive Office of Immigration Review (EOIR). These datasets include processed data on arrests, detains, and transports. We decided to use the processed ICE data that they provide to facilitate analysis.
+## Project Description
+This project is an interactive web map that visualizes deportation rates across the United States, with an emphasis on Washington State (King, Pierce, Snohomish, and nearby counties). We provide total deportation counts, area counts, monthly averages, and geographic/hotspot analysis through Mapbox GL JS layers and Chart.js time-series visualizations.
 
-Data Sources:
-<br>
-[Deportation Data Project Data Portal](https://deportationdata.org/index.html)
-<br>
-[Processed ICE Data](https://deportationdata.org/data/processed/ice.html)
+## Project Goals
+- Build an accessible visual tool for understanding deportation enforcement patterns.
+- Enable users to identify hotspot clusters and compare regions at state/county levels.
+- Encourage critical thinking about how immigration policies affect communities.
+- Add context for data collection, cleaning, and interpretation for non-technical audiences.
 
-### Contributors: 
+## Features
+- Interactive Mapbox GL JS map with point data and custom layers
+- Heatmap/hotspot and choropleth visualization options
+- Reset and layer toggles
+- Info summary panel and charts for trends and category breakdowns
+- Accessible dark theme UI
+
+## Screenshots (sample)
+![Map view](./assets/Screenshot_10-3-2026_173228_127.0.0.1.jpeg)
+
+![Chart view](./assets/Screenshot_10-3-2026_173146_127.0.0.1.jpeg)
+
+> Ensure both screenshot files are committed into `assets/` so they render in README.
+
+## Data Sources
+- [Deportation Data Project Data Portal](https://deportationdata.org/index.html)
+- [Processed ICE Data](https://deportationdata.org/data/processed/ice.html)
+- Local dataset: `assets/arrests-data.geojson`
+- Local dataset: `assets/arrests-washington-only.csv`
+
+## Applied Libraries and Services
+- Mapbox GL JS (v2.15.0)
+- Chart.js (v4.4.0)
+- Bootstrap (v5.3.0)
+- Font Awesome (v6.4.0)
+- GitHub Pages deployment
+
+## Other Notes
+- Interactive layers and panels are in `index.html` / `js/main.js`.
+- About page content in `about.html`.
+- Static styling in `css/style.css`.
+
+## Acknowledgment
+Thank you to the Deportation Data Project for making processed deportation datasets publicly available. 
+
+Esteemed permission from Washington State geographic data users and open-source contributors (Mapbox, Chart.js, Bootstrap).
+
+---
+
+### Contributors
 Cathya, Farhan, Irving, Max
 
 
