@@ -27,10 +27,10 @@ map.on("load", () => {
       "circle-color": [
         "step",
         ["get", "point_count"],
-        "#ffd700",   // 0-9: Gold
-        10, "#87ceeb",   // 10-49: Sky Blue
-        50, "#00bfff",   // 50-199: Deep Sky Blue
-        200, "#0066ff"   // 200+: Bright Blue
+        "#1a3a7d",   // 0-9: Dark Blue
+        10, "#0052cc",   // 10-49: Medium Blue
+        50, "#00bfff",   // 50-199: Light Blue
+        200, "#87ceeb"   // 200+: Light Sky Blue
       ],
       "circle-radius": [
         "step",
